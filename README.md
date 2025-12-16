@@ -94,11 +94,15 @@ Deployed on Vercel:
 2. Configure environment variables in Vercel dashboard
 3. Deploy automatically on push to `main`
 
-## Contributing
+## What I Learned
 
-This is a personal learning project, but suggestions are welcome! See `Plan.md` for the product roadmap and `CLAUDE.md` for development setup.
+Multi-API orchestration: AudD for recognition, MusicBrainz for metadata, Spotify for recommendations, Claude for coaching suggestions. Each service fails gracefully without breaking the experience. What surprised me: audio recognition trained on studio recordings struggles with music practice. Kids stop mid-phrase, repeat sections, play wrong notes—that abrupt start-stop-repeat pattern makes it hard to identify the song, let alone the version or composer. Suddenly I needed "close enough" matching that works with fragments. Real-world use breaks clean assumptions.
+
+## What's Next
+
+I'm building **real-time "play along" suggestions**—analyzing what my kids are playing and recommending chords/riffs so I can jam with them on guitar. This builds on the audio recognition lessons: matching their imperfect playing to playable chord progressions in real-time, keeping suggestions simple enough for my skill level, and making the "close enough" matching work when they drift tempo or hit wrong notes. It's the same audio challenge as before, but now with the added complexity of making recommendations musically coherent.
 
 ---
 
-**Status:** In Development  
+**Status:** Active Development (Constant Work in Progress)  
 **Purpose:** Personal learning and portfolio project
