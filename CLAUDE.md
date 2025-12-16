@@ -11,11 +11,16 @@ Next.js 14+ app with TypeScript for parents to engage with kids' music practice.
 **Key constraint:** Must work with live instrument playing (not just recordings)
 
 ## Tech Stack
+*Follows root CLAUDE.md defaults with project-specific additions:*
+
 - **Framework:** Next.js 14+ (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
+- **Database:** Supabase (for caching, user preferences)
+- **AI/LLM:** Anthropic Claude (coaching content generation)
+- **Streaming:** Vercel AI SDK for coaching responses
 - **Audio:** Web Audio API
-- **APIs:** AudD (recognition), MusicBrainz (metadata), Spotify (recommendations), OpenAI/Claude (coaching content)
+- **External APIs:** AudD (recognition), MusicBrainz (metadata), Spotify (recommendations)
 
 ## Quick Reference
 
