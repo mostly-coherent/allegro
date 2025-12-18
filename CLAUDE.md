@@ -2,6 +2,15 @@
 
 > AI Assistant Context: This file contains technical setup and development guidance for working with this codebase.
 
+## 🚨 CRITICAL: GitHub Safety
+
+**This project ONLY syncs to personal GitHub:**
+- ✅ `github.com/jmbeh/Allegro`
+- ❌ **NEVER push to:** `git.corp.adobe.com/*` or `github.com/adobe/*`
+
+Git remote format: `git@github.com:jmbeh/Allegro.git`
+Git author email: `behjianming@gmail.com`
+
 ## Project Type
 Next.js 14+ app with TypeScript for parents to engage with kids' music practice. Identifies songs from live piano/guitar playing and generates personalized coaching content.
 
@@ -83,7 +92,7 @@ Copy `.env.example` to `.env.local` and configure:
 
 ### Required
 - `AUDD_API_KEY` - AudD music recognition API (handles live instruments)
-- `MUSICBRAINZ_USER_AGENT` - Format: "Allegro/1.0 (https://github.com/JMBeh/Allegro)"
+- `MUSICBRAINZ_USER_AGENT` - Format: "Allegro/1.0 (https://github.com/jmbeh/Allegro)"
 - `SPOTIFY_CLIENT_ID` - Spotify app credentials (for recommendations)
 - `SPOTIFY_CLIENT_SECRET` - Spotify app credentials
 - `OPENAI_API_KEY` - OpenAI API (essential for generating coaching content)

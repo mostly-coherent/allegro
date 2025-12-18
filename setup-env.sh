@@ -43,7 +43,7 @@ SPOTIFY_CLIENT_SECRET=
 # ===========================================
 # AUTO-CONFIGURED: MusicBrainz (no key needed)
 # ===========================================
-MUSICBRAINZ_USER_AGENT=Allegro/1.0 (https://github.com/JMBeh/Allegro)
+MUSICBRAINZ_USER_AGENT=Allegro/1.0 (https://github.com/jmbeh/Allegro)
 
 # ===========================================
 # OPTIONAL: Your email for higher MusicBrainz rate limits

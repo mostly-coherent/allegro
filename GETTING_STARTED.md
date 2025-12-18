@@ -43,7 +43,7 @@ Edit `.env.local` and add your AudD API key:
 
 ```bash
 AUDD_API_KEY=your_actual_api_key_here
-MUSICBRAINZ_USER_AGENT=Allegro/1.0 (https://github.com/JMBeh/Allegro)
+MUSICBRAINZ_USER_AGENT=Allegro/1.0 (https://github.com/jmbeh/Allegro)
 ```
 
 ### Step 3: Run the App
@@ -157,7 +157,7 @@ Open http://localhost:3000 in your browser.
 3. **Configure Environment Variables**
    In Vercel dashboard, add:
    - `AUDD_API_KEY` - Your AudD API key
-   - `MUSICBRAINZ_USER_AGENT` - `Allegro/1.0 (https://github.com/JMBeh/Allegro)`
+   - `MUSICBRAINZ_USER_AGENT` - `Allegro/1.0 (https://github.com/jmbeh/Allegro)`
    - (Optional) `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `OPENAI_API_KEY`
 
 4. **Deploy**

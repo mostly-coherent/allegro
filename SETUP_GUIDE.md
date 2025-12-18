@@ -28,7 +28,7 @@ Edit `.env.local` with your API keys:
 
 2. **MusicBrainz** (Metadata)
    - No signup required
-   - Set user agent: `MUSICBRAINZ_USER_AGENT=Allegro/1.0 (https://github.com/JMBeh/Allegro)`
+   - Set user agent: `MUSICBRAINZ_USER_AGENT=Allegro/1.0 (https://github.com/jmbeh/Allegro)`
    - Optional: Add your email for higher rate limits
 
 3. **Spotify API** (Recommendations - for future features)

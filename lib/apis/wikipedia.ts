@@ -33,7 +33,7 @@ export async function getArtistSummary(artistName: string): Promise<WikipediaInf
     let response = await fetch(directUrl, {
       headers: {
         'Accept': 'application/json',
-        'User-Agent': 'Allegro/1.0 (https://github.com/JMBeh/Allegro)',
+        'User-Agent': 'Allegro/1.0 (https://github.com/jmbeh/Allegro)',
       },
     })
 
@@ -48,7 +48,7 @@ export async function getArtistSummary(artistName: string): Promise<WikipediaInf
       response = await fetch(searchUrl, {
         headers: {
           'Accept': 'application/json',
-          'User-Agent': 'Allegro/1.0 (https://github.com/JMBeh/Allegro)',
+          'User-Agent': 'Allegro/1.0 (https://github.com/jmbeh/Allegro)',
         },
       })
       
@@ -84,7 +84,7 @@ async function searchWikipedia(query: string): Promise<string | null> {
 
     const response = await fetch(`${WIKIPEDIA_ACTION_API}?${params}`, {
       headers: {
-        'User-Agent': 'Allegro/1.0 (https://github.com/JMBeh/Allegro)',
+        'User-Agent': 'Allegro/1.0 (https://github.com/jmbeh/Allegro)',
       },
     })
 
@@ -120,7 +120,7 @@ export async function getSongFacts(songTitle: string, artistName: string): Promi
     const response = await fetch(url, {
       headers: {
         'Accept': 'application/json',
-        'User-Agent': 'Allegro/1.0 (https://github.com/JMBeh/Allegro)',
+        'User-Agent': 'Allegro/1.0 (https://github.com/jmbeh/Allegro)',
       },
     })
 
