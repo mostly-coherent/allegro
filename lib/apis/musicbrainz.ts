@@ -22,7 +22,7 @@ async function rateLimitedFetch(url: string, options: RequestInit): Promise<Resp
 }
 
 function getHeaders(): HeadersInit {
-  const userAgent = process.env.MUSICBRAINZ_USER_AGENT || 'Allegro/1.0 (https://github.com/jmbeh/Allegro)'
+  const userAgent = process.env.MUSICBRAINZ_USER_AGENT || 'Allegro/1.0 (https://github.com/mostly-coherent/Allegro)'
   return {
     'User-Agent': userAgent,
     'Accept': 'application/json',

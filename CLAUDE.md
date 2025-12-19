@@ -92,7 +92,7 @@ Copy `.env.example` to `.env.local` and configure:
 
 ### Required
 - `AUDD_API_KEY` - AudD music recognition API (handles live instruments)
-- `MUSICBRAINZ_USER_AGENT` - Format: "Allegro/1.0 (https://github.com/jmbeh/Allegro)"
+- `MUSICBRAINZ_USER_AGENT` - Format: "Allegro/1.0 (https://github.com/mostly-coherent/Allegro)"
 - `SPOTIFY_CLIENT_ID` - Spotify app credentials (for recommendations)
 - `SPOTIFY_CLIENT_SECRET` - Spotify app credentials
 - `OPENAI_API_KEY` - OpenAI API (essential for generating coaching content)
