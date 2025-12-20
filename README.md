@@ -1,108 +1,86 @@
 # 🎹 Allegro
 
-![Type](https://img.shields.io/badge/Type-App-blue)
-![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
-![Stack](https://img.shields.io/badge/Stack-Next.js%20%7C%20TypeScript%20%7C%20Tailwind-blue)
+> *Allegro* (Italian): Cheerful, lively — the spirit of joyful practice
 
-> *Allegro* (Italian): Cheerful, lively - A musical tempo marking and the spirit of joyful practice
+**A personal coaching companion for parents whose kids are learning piano and guitar.** Listen to practice sessions, identify what they're playing, and get wise cracks, coaching moments, and encouragement—even if you're not a music expert.
 
-A personal coaching companion for parents whose kids are learning piano and guitar. Listen to practice sessions, identify what they're playing, and get smart suggestions for wise cracks, coaching moments, and encouragement - even if you're not a music expert yourself.
+---
 
-## ✨ Features
+## 🚀 See It Running
 
-- **Core value:** Turn passive listening into active engagement during your kids' music practice
-- **Key workflow:** Listen → Identify → Get coaching suggestions → Engage meaningfully
-- **Smart suggestions:** Wise cracks, coaching moments, encouragement prompts, and "what's next" recommendations
-- **Integration:** AudD (recognition), MusicBrainz (metadata), Spotify (recommendations), OpenAI/Claude (personalized coaching content)
-- **Extras:** Age-appropriate tone, works with live instruments, mobile-friendly for use near practice area
+### Option A: Auto-Generate Server Scripts (Recommended)
 
-## 🚀 Quick Start
+In Cursor Chat, type:
 
-### 1. Install dependencies
+```
+@Generate-server-scripts.md @Allegro
+```
+
+This creates `start-servers.sh`, `stop-servers.sh`, and `check-servers.sh` for one-command startup.
+
+### Option B: Manual Quick Start
 
 ```bash
 npm install
-```
-
-### 2. Configure environment
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with the required keys and settings for this project.
-
-### 3. Run the app
-
-```bash
+cp env.example .env
 npm run dev
 ```
 
-Open `http://localhost:3000` in your browser.
+Open **http://localhost:3000** in your browser.
 
 ---
 
-## Scripts
+## ✨ Features
 
-```bash
-npm run dev
-npm run build
-npm run lint
-npm test
-```
-
-## 🔑 Environment Variables
-
-Required API keys (see `.env.example` for full list):
-
-- **`AUDD_API_KEY`** – AudD music recognition API key (identifies songs from live playing)
-- **`MUSICBRAINZ_USER_AGENT`** – MusicBrainz API user agent (gets composer/songwriter info)
-- **`SPOTIFY_CLIENT_ID`** – Spotify app client ID (for "what's next" recommendations)
-- **`SPOTIFY_CLIENT_SECRET`** – Spotify app client secret
-- **`OPENAI_API_KEY`** – OpenAI API key (generates personalized coaching content)
+- **Instant song identification** — Tap a button to identify what your kids are playing (live piano/guitar)
+- **Smart suggestions** — Get wise cracks, coaching prompts, and encouragement tailored to the song
+- **"What's next" recommendations** — Spotify-powered suggestions for songs to learn next
+- **Mobile-first** — Designed to use on your phone near the practice area
+- **Graceful degradation** — Partial results if some APIs fail
 
 ## 🎯 How It Works
 
-1. **Listen** - Open the app on your phone/computer near where your kids practice
-2. **Tap to Identify** - When you hear them playing something, tap the button to identify it
-3. **Get Smart Suggestions** - Receive wise cracks, coaching moments, and encouragement prompts
-4. **Engage** - Use the suggestions to connect with your kids about their practice
+1. **Listen** — Open the app on your phone near where your kids practice
+2. **Tap to Identify** — When you hear them playing, tap the button
+3. **Get Smart Suggestions** — Receive coaching content personalized to the song
+4. **Engage** — Use the suggestions to connect meaningfully during practice
 
-## The Problem This Solves
+## 🔑 Environment Variables
 
-**Scenario:** Your kids are practicing piano/guitar behind your desk. You want to be supportive and engaged, but:
-- You don't always recognize what they're playing
-- You're not sure what to say that's helpful (not just "sounds good!")
-- You want to encourage them without being overbearing
-- You'd like to suggest what they might enjoy learning next
+Create `.env` from `env.example` and configure:
 
-**Solution:** This app gives you the context and conversation tools to be an engaged, supportive parent - even if you're not a music expert.
-
-## Primary Use Case
-
-**Parents of kids learning instruments (ages 5-18)**
-- Want to support their children's music education
-- May not have formal music training
-- Looking for meaningful ways to engage during practice
-- Want to encourage without interrupting or criticizing
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `AUDD_API_KEY` | ✅ | AudD music recognition (identifies songs from live playing) |
+| `MUSICBRAINZ_USER_AGENT` | ✅ | MusicBrainz API user agent (composer/songwriter info) |
+| `SPOTIFY_CLIENT_ID` | ✅ | Spotify app credentials (recommendations) |
+| `SPOTIFY_CLIENT_SECRET` | ✅ | Spotify app credentials |
+| `OPENAI_API_KEY` | ✅ | OpenAI API (generates coaching content) |
+| `ANTHROPIC_API_KEY` | | Alternative to OpenAI for Claude |
 
 ## 🚢 Deployment
 
-Deployed on Vercel:
+Deploy to Vercel:
 
-1. Connect this GitHub repository to Vercel
-2. Configure environment variables in Vercel dashboard
-3. Deploy automatically on push to `main`
+```bash
+vercel --prod
+```
 
-## 💭 What I Learned
-
-Multi-API orchestration: AudD for recognition, MusicBrainz for metadata, Spotify for recommendations, Claude for coaching suggestions. Each service fails gracefully without breaking the experience. What surprised me: audio recognition trained on studio recordings struggles with music practice. Kids stop mid-phrase, repeat sections, play wrong notes—that abrupt start-stop-repeat pattern makes it hard to identify the song, let alone the version or composer. Suddenly I needed "close enough" matching that works with fragments. Real-world use breaks clean assumptions.
-
-## 🔮 What's Next
-
-I'm building **real-time "play along" suggestions**—analyzing what my kids are playing and recommending chords/riffs so I can jam with them on guitar. This builds on the audio recognition lessons: matching their imperfect playing to playable chord progressions in real-time, keeping suggestions simple enough for my skill level, and making the "close enough" matching work when they drift tempo or hit wrong notes. It's the same audio challenge as before, but now with the added complexity of making recommendations musically coherent.
+Configure environment variables in Vercel dashboard before deploying.
 
 ---
 
-**Status:** Active Development (Constant Work in Progress)  
-**Purpose:** Personal learning and portfolio project
+## 💭 What I Learned
+
+Multi-API orchestration: AudD for recognition, MusicBrainz for metadata, Spotify for recommendations, Claude for coaching suggestions. Each service fails gracefully without breaking the experience. What surprised me: audio recognition trained on studio recordings struggles with music practice. Kids stop mid-phrase, repeat sections, play wrong notes—that abrupt start-stop-repeat pattern makes it hard to identify the song. Real-world use breaks clean assumptions.
+
+## 🔮 What's Next
+
+Building **real-time "play along" suggestions**—analyzing what my kids are playing and recommending chords/riffs so I can jam with them on guitar. Same audio challenge, but now matching imperfect playing to playable chord progressions in real-time.
+
+---
+
+**Status:** Active Development  
+**Stack:** Next.js 14 · TypeScript · Tailwind · AudD · Spotify · OpenAI
+
+See `CLAUDE.md` for detailed technical setup and development commands.
