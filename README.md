@@ -4,8 +4,6 @@
 
 **A personal coaching companion for parents whose kids are learning piano and guitar.** Listen to practice sessions, identify what they're playing, and get wise cracks, coaching moments, and encouragement—even if you're not a music expert.
 
-![Allegro Homepage](e2e-results/01-homepage.png)
-
 ---
 
 ## 🚀 See It Running
