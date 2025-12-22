@@ -4,6 +4,8 @@
 
 **A personal coaching companion for parents whose kids are learning piano and guitar.** Listen to practice sessions, identify what they're playing, and get wise cracks, coaching moments, and encouragement—even if you're not a music expert.
 
+🔗 **Live Demo:** [allegro-music.vercel.app](https://allegro-music.vercel.app/)
+
 ---
 
 ## 🚀 See It Running
