@@ -28,7 +28,6 @@ npm run dev
 
 Open **http://localhost:3000** in your browser.
 
-
 ---
 
 ## ✨ Features
@@ -69,7 +68,6 @@ vercel --prod
 
 Configure environment variables in Vercel dashboard before deploying.
 
-
 ---
 
 ## 💭 What I Learned
@@ -79,7 +77,6 @@ Multi-API orchestration: AudD for recognition, MusicBrainz for metadata, Spotify
 ## 🔮 What's Next
 
 Building **real-time "play along" suggestions**—analyzing what my kids are playing and recommending chords/riffs so I can jam with them on guitar. Same audio challenge, but now matching imperfect playing to playable chord progressions in real-time.
-
 
 ---
 
