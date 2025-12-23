@@ -45,5 +45,53 @@ test.describe('Allegro E2E Tests', () => {
     await page.screenshot({ path: 'e2e-results/05-tablet.png', fullPage: true });
   });
 
+  test('06 - Play Along page loads', async ({ page }) => {
+    await page.goto('/play-along');
+    
+    // Check key elements are present (default is now Song Mode - Phase 6C)
+    await expect(page.getByRole('heading', { name: 'Play Along Mode' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Song Matcher' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Start Song Matching' })).toBeVisible();
+    
+    // Check all three mode tabs exist
+    await expect(page.getByRole('button', { name: /Song Mode/ })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Chord Mode/ })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Key Mode/ })).toBeVisible();
+    
+    await page.screenshot({ path: 'e2e-results/06-play-along-song.png', fullPage: true });
+    
+    // Switch to Chord Mode and verify
+    await page.getByRole('button', { name: /Chord Mode/ }).click();
+    await expect(page.getByRole('heading', { name: 'Chord Detection' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Start Chord Detection' })).toBeVisible();
+    
+    await page.screenshot({ path: 'e2e-results/06-play-along-chord.png', fullPage: true });
+    
+    // Switch to Key Mode and verify
+    await page.getByRole('button', { name: /Key Mode/ }).click();
+    await expect(page.getByRole('heading', { name: 'Key Detection' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Start Key Detection' })).toBeVisible();
+    
+    await page.screenshot({ path: 'e2e-results/06-play-along-key.png', fullPage: true });
+  });
+
+  test('07 - Practice Mode page loads', async ({ page }) => {
+    await page.goto('/practice');
+    
+    // Check key elements are present (Phase 7 - Background Listening)
+    await expect(page.getByRole('heading', { name: '🎧 Practice Mode' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Background Listening' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Start Background Listening' })).toBeVisible();
+    
+    // Check how-it-works section
+    await expect(page.getByRole('heading', { name: 'How Practice Mode Works' })).toBeVisible();
+    
+    // Check navigation links
+    await expect(page.getByRole('link', { name: /Play Along Mode/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Back to Song Recognition/ })).toBeVisible();
+    
+    await page.screenshot({ path: 'e2e-results/07-practice-mode.png', fullPage: true });
+  });
+
 });
 

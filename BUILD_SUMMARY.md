@@ -1,8 +1,9 @@
-# Allegro - Build Summary
+# Allegr  - Build Summary
 
-**Status:** ✅ Phase 1 MVP Complete  
-**Date:** December 13, 2025  
-**Version:** 0.1.0
+**Status:** ✅ Phases 1-5 Complete (Production Deployed)  
+**Date:** December 22, 2025  
+**Version:** 1.0.0  
+**Live:** [Vercel](https://github.com/mostly-coherent/allegro) (auto-deploys from main)
 
 ## What Was Built
 
@@ -89,30 +90,42 @@
 - ✅ `Plan.md` - Product requirements and roadmap
 - ✅ `README.md` - Project overview
 
-## What's Not Yet Implemented (Future Phases)
+## Phases Completed
 
-### Phase 2: Metadata Enrichment
-- ⏳ MusicBrainz integration for songwriter/composer info
-- ⏳ Wikipedia integration for biographical facts
-- ⏳ Enhanced metadata display components
+### Phase 2: Metadata Enrichment ✅
+- ✅ MusicBrainz integration (`lib/apis/musicbrainz.ts`)
+- ✅ Wikipedia integration (`lib/apis/wikipedia.ts`)
+- ✅ Fun facts extraction and display
+- ✅ 1-hour cache for metadata
 
-### Phase 3: Recommendations
-- ⏳ Spotify OAuth flow
-- ⏳ Similar songs recommendations
-- ⏳ Audio preview playback
+### Phase 3: Recommendations ✅
+- ✅ Spotify Client Credentials flow (no OAuth)
+- ✅ Similar songs with album art
+- ✅ Audio preview playback (30-sec)
+- ✅ 24-hour cache for recommendations
 
-### Phase 4: AI Coaching Content
-- ⏳ OpenAI/Claude integration for content generation
-- ⏳ Wise cracks and conversation starters
-- ⏳ Coaching moments and encouragement prompts
-- ⏳ Age/skill level personalization
-- ⏳ Content caching to reduce API costs
+### Phase 4: AI Coaching Content ✅
+- ✅ OpenAI gpt-4o-mini integration (`lib/apis/coaching.ts`)
+- ✅ 4 categories: Wise Cracks, Coaching Moments, Encouragement, What's Next
+- ✅ Age/skill level personalization
+- ✅ Copy-to-clipboard functionality
+- ✅ 7-day cache; fallback content when API unavailable
 
-### Phase 5: Polish & Production
-- ⏳ Comprehensive analytics
-- ⏳ Performance optimization
-- ⏳ Accessibility improvements
-- ⏳ Production deployment to Vercel
+### Phase 5: Polish & Production ✅
+- ✅ Deployed to Vercel (github.com/mostly-coherent/allegro)
+- ✅ E2E tests with Playwright
+- ✅ APP_PASSWORD protection
+- ✅ Responsive design (mobile, tablet, desktop)
+- ✅ Error handling and loading states
+
+## What's Next (Priority: Phase 6)
+
+### Phase 6: Real-Time "Play Along" Suggestions
+**The Challenge:** Audio recognition trained on studio recordings fails when kids stop mid-phrase and play wrong notes.
+
+**Goal:** Match imperfect playing to chord progressions so parent can jam along on guitar.
+
+See Plan.md for detailed tasks.
 
 ## Technical Achievements
 

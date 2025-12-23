@@ -4,6 +4,8 @@ import type { NextRequest } from 'next/server';
 // Routes that don't require authentication
 const PUBLIC_ROUTES = [
   '/api/login',       // Login endpoint
+  '/play-along',      // Play Along mode (Phase 6) - standalone feature
+  '/practice',        // Practice mode (Phase 7) - background listening
 ];
 
 export function middleware(request: NextRequest) {
