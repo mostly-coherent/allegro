@@ -238,23 +238,135 @@ A personal coaching companion app that listens to kids practicing piano and guit
 - ✅ Engaging, contextual, and personalized to the specific song
 - ✅ Easy to copy and use in conversation
 
-### Phase 5: Polish & Optimization (Week 6)
-**Goal:** Production-ready app
+### Phase 5: Polish & Production ✅ COMPLETE
+**Goal:** Production-ready app deployed
+
+**Completed:**
+- [x] Comprehensive error handling (API failures, network issues, audio errors)
+- [x] API caching implemented:
+  - Metadata: 1-hour cache
+  - Recommendations: 24-hour cache  
+  - Coaching: 7-day cache
+- [x] Responsive design with loading states
+- [x] Accessibility (ARIA labels, keyboard navigation)
+- [x] Deployed to Vercel (github.com/mostly-coherent/allegro)
+- [x] E2E tests with Playwright
+- [x] APP_PASSWORD protection for demo security
+
+**What's Working:**
+- Full recognition → metadata → recommendations → coaching pipeline
+- Copy-to-clipboard for coaching suggestions
+- Age/skill level personalization
+- Fallback content when APIs unavailable
+- Mobile-first responsive design
+
+---
+
+## NEXT PRIORITY: Real-Time "Play Along" Suggestions
+
+### Phase 6: Play-Along Mode (In Progress)
+**Goal:** Match imperfect playing to playable chord progressions so dad can jam with kids on guitar
+
+**The Challenge:** Audio recognition trained on studio recordings fails completely when kids stop mid-phrase and play wrong notes. That abrupt start-stop-repeat pattern makes it hard to identify the song, let alone the version or composer. Need "close enough" matching that works with fragments—not song identification, but musical accompaniment.
+
+**Phase 6A: Key/Mode Detection ✅ COMPLETE**
+- [x] Detect key signature from live audio (C major, G minor, etc.)
+- [x] Display suggested chords for that key (I, IV, V, vi)
+- [x] Simple "noodle mode" - show what key they're in
+- [x] Works even with wrong notes (key detection more robust than song ID)
+- [x] Confidence scoring and alternate key suggestions
+- [x] Chroma visualization (12 pitch classes)
+- [x] Meyda.js integration with Krumhansl-Schmuckler algorithm
+- [x] Standalone `/play-along` route
+
+**Implementation Details:**
+- `lib/utils/keyDetection.ts` - Krumhansl-Schmuckler key detection algorithm
+- `lib/hooks/useKeyDetector.ts` - Real-time audio hook using Meyda.js
+- `components/KeyDetector.tsx` - UI component with visualization
+- `app/play-along/page.tsx` - Standalone play-along page
+
+**Phase 6B: Real-Time Chord Display ✅ COMPLETE**
+- [x] Chord detection from audio stream using template matching
+- [x] Display guitar chord diagrams with fingering (SVG-based)
+- [x] Chord history tracking (recent chords played)
+- [x] "What chord comes next" prediction based on key + common progressions
+- [x] Alternative chord suggestions with confidence %
+- [x] Mode tabs on play-along page (Key Mode vs Chord Mode)
+- [ ] Test with real practice sessions (manual testing)
+- [ ] Handle tempo variations / beat indicator (deferred to 6C)
+
+**Implementation Details:**
+- `lib/utils/chordDetection.ts` - Template matching with dot product similarity
+- `lib/hooks/useChordDetector.ts` - Real-time hook with chord history
+- `components/ChordDiagram.tsx` - SVG guitar diagrams (30+ chords)
+- `components/ChordDetector.tsx` - Full UI with predictions
+- Updated `app/play-along/page.tsx` - Mode tabs (Key/Chord)
+
+**Phase 6C: Fragment Matching ✅ COMPLETE**
+- [x] Song database with 30+ beginner songs and chord progressions
+- [x] Fuzzy matching algorithm (tolerates wrong notes, order variations)
+- [x] "Sounds like..." UI with confidence scoring
+- [x] Song details with chord diagrams and fun facts
+- [x] Similar song recommendations
+- [x] Connect to coaching content when song identified
+- [x] Three-mode UI: Song Mode (default), Chord Mode, Key Mode
+
+**Implementation Details:**
+- `lib/data/songDatabase.ts` - 30+ songs with chords, keys, difficulty, fun facts
+- `lib/utils/fragmentMatcher.ts` - Fuzzy matching with sliding window
+- `components/SongMatcher.tsx` - Full song matching UI
+- Updated `app/play-along/page.tsx` - Three-mode tabs
+
+**Phase 6A Success Criteria (VERIFIED):**
+- ✅ Detect key within 5-10 seconds of playing
+- ✅ Display suggested chords for parent to strum along
+- ✅ Works with imperfect playing (key detection is robust)
+- ✅ Graceful state when audio is unclear (confidence indicator)
+- ✅ Chroma visualization shows what notes are being detected
+
+### Phase 7: Background Listening Mode ✅ COMPLETE
+
+**Goal:** Enable continuous listening during practice sessions
 
 **Tasks:**
-- [ ] Implement comprehensive error handling
-- [ ] Add rate limiting and API call optimization
-- [ ] Improve loading states and animations
-- [ ] Add analytics (optional)
-- [ ] Performance optimization
-- [ ] Accessibility improvements
-- [ ] Deploy to Vercel
-- [ ] Create demo video/screenshots
+- [x] Implement activity detection (silence vs. playing)
+- [x] Queue multiple identifications per session
+- [x] Add session summary view
+- [x] Battery optimization (background awareness)
+- [x] Notification when new song identified (browser notifications)
+- [x] Auto-start/stop based on audio activity
+
+**Implementation Details:**
+- `lib/hooks/useActivityDetector.ts` - Volume-based activity detection
+- `lib/hooks/useSessionHistory.ts` - Session event queue and stats
+- `components/BackgroundListener.tsx` - Main auto-listening component
+- `components/SessionSummary.tsx` - Practice session timeline/stats
+- `app/practice/page.tsx` - Dedicated practice mode page
+- Updated middleware to allow `/practice` as public route
+
+**Success Criteria (VERIFIED):**
+- ✅ Automatically detects when music starts (volume threshold)
+- ✅ No manual trigger needed for song detection
+- ✅ Session history with all identified songs
+- ✅ Browser notifications for song detection
+- ✅ Session summary with stats and timeline
+
+### Phase 8: Practice Tracking & Progress (Future)
+**Goal:** Track what kids practice over time
+
+**Tasks:**
+- [ ] Supabase user authentication
+- [ ] Practice session history
+- [ ] "Pieces mastered" timeline
+- [ ] Multi-child profiles
+- [ ] Practice streak tracking
+- [ ] Weekly progress summaries
 
 **Success Criteria:**
-- Handles all error cases gracefully
-- Fast and responsive
-- Production-ready deployment
+- Historical view of all practice sessions
+- Multi-child support with separate histories
+- Weekly summaries (email optional)
+- Data export
 
 ## Technical Architecture
 
