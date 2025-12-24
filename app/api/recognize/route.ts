@@ -47,9 +47,16 @@ export async function POST(request: NextRequest) {
     const result = await recognizeSong(audioBlob)
 
     if (result.status === 'error') {
+      // Check if it's a configuration error (should be 500, not 400)
+      const isConfigError = result.error?.includes('not configured') || 
+                           result.error?.includes('API key')
+      
       return NextResponse.json(
-        { error: result.error },
-        { status: 400 }
+        { 
+          error: result.error,
+          details: isConfigError ? 'Please check your .env.local file and ensure AUDD_API_KEY is set.' : undefined
+        },
+        { status: isConfigError ? 500 : 400 }
       )
     }
 
@@ -59,19 +66,30 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('Recognition API error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to process audio'
     return NextResponse.json(
-      { error: 'Failed to process audio' },
+      { 
+        error: errorMessage,
+        details: 'Check server logs for more information'
+      },
       { status: 500 }
     )
   }
 }
 
 export async function GET() {
+  const auddKey = process.env.AUDD_API_KEY
+  const acrcloudKey = process.env.ACRCLOUD_ACCESS_KEY
+  
   return NextResponse.json(
     { 
       message: 'Allegro Recognition API',
       endpoints: {
         POST: '/api/recognize - Upload audio for recognition',
+      },
+      configuration: {
+        audd: auddKey ? 'configured' : 'missing (AUDD_API_KEY required)',
+        acrcloud: acrcloudKey ? 'configured' : 'optional (not set)',
       }
     },
     { status: 200 }

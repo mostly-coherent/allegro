@@ -79,9 +79,14 @@ export async function recognizeSong(audioBlob: Blob | File): Promise<Recognition
 
     // Check HTTP status
     if (response.status !== 200) {
+      const errorMsg = data.error?.error_message || 
+                       data.error?.message ||
+                       data.error || 
+                       (typeof data === 'string' ? data : `AudD API error: ${response.status}`)
+      
       return {
         status: 'error',
-        error: data.error?.error_message || data.error || `AudD API error: ${response.status}`,
+        error: errorMsg,
       }
     }
 
