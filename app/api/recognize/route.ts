@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { recognizeSong } from '@/lib/apis/audd'
+import { recognizeSong } from '@/lib/apis/recognition'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -16,10 +16,32 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Convert File to Blob
-    const audioBlob = new Blob([await audioFile.arrayBuffer()], { 
-      type: audioFile.type 
+    // Validate file has data
+    if (audioFile.size === 0) {
+      return NextResponse.json(
+        { error: 'Audio file is empty. Please try recording again.' },
+        { status: 400 }
+      )
+    }
+
+    console.log(`[Recognize API] Received file: size=${audioFile.size} bytes, type=${audioFile.type}, name=${audioFile.name}`)
+
+    // Convert File to Blob for the recognizeSong function
+    // We need to ensure the blob has the correct type
+    const arrayBuffer = await audioFile.arrayBuffer()
+    const audioBlob = new Blob([arrayBuffer], { 
+      type: audioFile.type || 'audio/webm'
     })
+
+    // Validate blob was created correctly
+    if (!audioBlob || audioBlob.size === 0) {
+      return NextResponse.json(
+        { error: 'Failed to process audio file' },
+        { status: 400 }
+      )
+    }
+
+    console.log(`[Recognize API] Created blob: size=${audioBlob.size} bytes, type=${audioBlob.type}`)
 
     // Call AudD API
     const result = await recognizeSong(audioBlob)

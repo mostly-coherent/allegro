@@ -11,7 +11,7 @@ interface AudioRecorderProps {
 
 export function AudioRecorderComponent({ 
   onRecordingComplete, 
-  maxDuration = 10,
+  maxDuration = 20,
   disabled = false 
 }: AudioRecorderProps) {
   const [isRecording, setIsRecording] = useState(false)
@@ -27,24 +27,21 @@ export function AudioRecorderComponent({
   const handleStop = useCallback(async () => {
     if (!recorder) return
     
-    // Check if recorder is still active before stopping
-    if (!recorder.isRecording()) {
-      // Already stopped, just clean up UI state
-      setIsRecording(false)
-      setRecorder(null)
-      setDuration(0)
-      return
-    }
-    
     try {
+      // Always try to stop - the stop() method handles already-stopped cases
       const audioBlob = await recorder.stop()
       setIsRecording(false)
       setRecorder(null)
       setDuration(0)
       onRecordingComplete(audioBlob)
     } catch (err) {
-      // If stop fails (e.g., already stopped), just clean up UI
-      if (err instanceof Error && err.message.includes('not initialized')) {
+      // If stop fails, check if it's because it's already stopped
+      if (err instanceof Error && (
+        err.message.includes('not initialized') || 
+        err.message.includes('already stopped') ||
+        err.message.includes('Stop already in progress')
+      )) {
+        // Already stopped (likely by auto-stop), just clean up UI
         setIsRecording(false)
         setRecorder(null)
         setDuration(0)
@@ -61,9 +58,8 @@ export function AudioRecorderComponent({
     if (isRecording && recorder) {
       interval = setInterval(() => {
         setDuration(prev => {
-          // Check if recorder is still recording before stopping
-          if (prev >= maxDuration && recorder?.isRecording()) {
-            handleStop()
+          // Just update duration - auto-stop is handled by AudioRecorder class
+          if (prev >= maxDuration) {
             return maxDuration
           }
           return prev + 0.1
@@ -76,12 +72,21 @@ export function AudioRecorderComponent({
     return () => {
       if (interval) clearInterval(interval)
     }
-  }, [isRecording, maxDuration, handleStop, recorder])
+  }, [isRecording, maxDuration, recorder])
 
   const handleStart = useCallback(async () => {
     try {
       setError(null)
-      const newRecorder = new AudioRecorder({ maxDuration })
+      const newRecorder = new AudioRecorder({ 
+        maxDuration,
+        onAutoStop: (audioBlob) => {
+          // Handle auto-stop completion
+          setIsRecording(false)
+          setRecorder(null)
+          setDuration(0)
+          onRecordingComplete(audioBlob)
+        }
+      })
       await newRecorder.start()
       setRecorder(newRecorder)
       setIsRecording(true)
@@ -89,7 +94,7 @@ export function AudioRecorderComponent({
       setError(err instanceof Error ? err.message : 'Failed to start recording')
       console.error('Recording error:', err)
     }
-  }, [maxDuration])
+  }, [maxDuration, onRecordingComplete])
 
   const handleCancel = useCallback(() => {
     if (recorder) {

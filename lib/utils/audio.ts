@@ -3,6 +3,7 @@
 export interface AudioRecorderConfig {
   maxDuration?: number; // in seconds
   mimeType?: string;
+  onAutoStop?: (audioBlob: Blob) => void; // Callback when auto-stop completes
 }
 
 export class AudioRecorder {
@@ -15,7 +16,7 @@ export class AudioRecorder {
 
   constructor(config: AudioRecorderConfig = {}) {
     this.config = {
-      maxDuration: 10, // default 10 seconds
+      maxDuration: 20, // default 20 seconds
       mimeType: 'audio/webm;codecs=opus',
       ...config,
     }
@@ -45,13 +46,23 @@ export class AudioRecorder {
         }
       }
 
-      this.mediaRecorder.start()
+      // Start with timeslice to ensure data is captured periodically
+      // This helps ensure we have data even if stop() is called abruptly
+      this.mediaRecorder.start(100) // Request data every 100ms
 
       // Auto-stop after max duration
       if (this.config.maxDuration) {
-        this.autoStopTimeout = setTimeout(() => {
+        this.autoStopTimeout = setTimeout(async () => {
           if (this.mediaRecorder?.state === 'recording' && !this.isStopping) {
-            this.stop()
+            try {
+              const audioBlob = await this.stop()
+              // Notify callback if provided
+              if (this.config.onAutoStop) {
+                this.config.onAutoStop(audioBlob)
+              }
+            } catch (error) {
+              console.error('Auto-stop failed:', error)
+            }
           }
         }, this.config.maxDuration * 1000)
       }
@@ -75,15 +86,42 @@ export class AudioRecorder {
 
     return new Promise((resolve, reject) => {
       if (!this.mediaRecorder) {
+        // If already cleaned up but we have chunks, return them
+        if (this.audioChunks.length > 0) {
+          const audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' })
+          resolve(audioBlob)
+          return
+        }
         reject(new Error('MediaRecorder not initialized'))
         return
       }
 
       this.isStopping = true
 
+      // Set up handlers before stopping
       this.mediaRecorder.onstop = () => {
         const mimeType = this.mediaRecorder?.mimeType || 'audio/webm'
+        
+        // Validate we have audio chunks
+        if (this.audioChunks.length === 0) {
+          console.error('No audio chunks captured')
+          this.cleanup()
+          this.isStopping = false
+          reject(new Error('No audio data captured'))
+          return
+        }
+        
         const audioBlob = new Blob(this.audioChunks, { type: mimeType })
+        
+        // Validate blob was created with data
+        if (audioBlob.size === 0) {
+          console.error('Audio blob is empty')
+          this.cleanup()
+          this.isStopping = false
+          reject(new Error('Audio blob is empty'))
+          return
+        }
+        
         this.cleanup()
         this.isStopping = false
         resolve(audioBlob)
@@ -91,17 +129,43 @@ export class AudioRecorder {
 
       this.mediaRecorder.onerror = (event) => {
         console.error('MediaRecorder error:', event)
-        this.cleanup()
-        this.isStopping = false
-        reject(new Error('Recording failed'))
+        // Even on error, try to return what we have
+        if (this.audioChunks.length > 0) {
+          const mimeType = this.mediaRecorder?.mimeType || 'audio/webm'
+          const audioBlob = new Blob(this.audioChunks, { type: mimeType })
+          this.cleanup()
+          this.isStopping = false
+          resolve(audioBlob)
+        } else {
+          this.cleanup()
+          this.isStopping = false
+          reject(new Error('Recording failed'))
+        }
       }
 
       if (this.mediaRecorder.state === 'recording') {
+        // Request final data chunk before stopping
+        this.mediaRecorder.requestData()
         this.mediaRecorder.stop()
       } else {
-        // Already stopped, resolve immediately
+        // Already stopped, resolve immediately with existing chunks
+        if (this.audioChunks.length === 0) {
+          this.cleanup()
+          this.isStopping = false
+          reject(new Error('No audio data captured'))
+          return
+        }
+        
         const mimeType = this.mediaRecorder.mimeType || 'audio/webm'
         const audioBlob = new Blob(this.audioChunks, { type: mimeType })
+        
+        if (audioBlob.size === 0) {
+          this.cleanup()
+          this.isStopping = false
+          reject(new Error('Audio blob is empty'))
+          return
+        }
+        
         this.cleanup()
         this.isStopping = false
         resolve(audioBlob)

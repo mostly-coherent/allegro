@@ -20,11 +20,21 @@ cat > .env.local << 'EOF'
 # Fill in your actual API keys below
 
 # ===========================================
-# REQUIRED: AudD API - Song Recognition
+# REQUIRED: AudD API - Song Recognition (Primary)
 # ===========================================
 # Sign up at: https://audd.io/
 # Get API key from dashboard (300 free recognitions to start)
 AUDD_API_KEY=
+
+# ===========================================
+# OPTIONAL: ACRCloud API - Song Recognition (Fallback)
+# ===========================================
+# Better accuracy for live/instrumental music
+# Sign up at: https://www.acrcloud.com/
+# Get Access Key and Access Secret from dashboard
+# If configured, will be used as fallback when AudD fails
+ACRCLOUD_ACCESS_KEY=
+ACRCLOUD_ACCESS_SECRET=
 
 # ===========================================
 # REQUIRED: OpenAI API - AI Coaching Content
@@ -54,6 +64,13 @@ MUSICBRAINZ_EMAIL=
 # App Configuration
 # ===========================================
 NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# ===========================================
+# Local Authentication
+# ===========================================
+# Password for local login page (family password)
+# Set this to any secure password you want users to enter
+APP_PASSWORD=
 EOF
 
 echo ""
@@ -67,6 +84,10 @@ echo ""
 echo "🔑 Required API keys:"
 echo "   • AUDD_API_KEY      → https://audd.io/"
 echo "   • OPENAI_API_KEY    → https://platform.openai.com/api-keys"
+echo "   • APP_PASSWORD     → Set your family password for local login"
+echo ""
+echo "🎵 Optional (for better recognition):"
+echo "   • ACRCLOUD_ACCESS_KEY/SECRET → https://www.acrcloud.com/ (better for live music)"
 echo ""
 echo "🎵 Optional (for recommendations):"
 echo "   • SPOTIFY_CLIENT_ID/SECRET → https://developer.spotify.com/dashboard"

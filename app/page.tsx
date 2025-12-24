@@ -272,7 +272,7 @@ export default function Home() {
       {loadingState === 'idle' && (
         <AudioRecorderComponent
           onRecordingComplete={handleRecordingComplete}
-          maxDuration={10}
+          maxDuration={20}
           disabled={loadingState !== 'idle'}
         />
       )}
