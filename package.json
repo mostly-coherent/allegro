@@ -2,6 +2,7 @@
   "name": "allegro",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "description": "A personal coaching companion for parents to engage with kids' music practice",
   "scripts": {
     "dev": "next dev",
