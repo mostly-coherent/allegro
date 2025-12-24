@@ -6,6 +6,17 @@
 *.js linguist-language=TypeScript
 *.jsx linguist-language=TypeScript
 
+# Exclude HTML files from language stats (test reports, etc.)
+*.html linguist-generated=true
+*.htm linguist-generated=true
+
+# Exclude test results and build artifacts
+playwright-report/** linguist-generated=true
+test-results/** linguist-generated=true
+e2e-results/** linguist-generated=true
+.next/** linguist-generated=true
+node_modules/** linguist-vendored=true
+
 # Mark documentation as documentation (excluded from language stats)
 *.md linguist-documentation=true
 
