@@ -10,6 +10,8 @@ export class AudioRecorder {
   private audioChunks: Blob[] = []
   private stream: MediaStream | null = null
   private config: AudioRecorderConfig
+  private autoStopTimeout: NodeJS.Timeout | null = null
+  private isStopping: boolean = false
 
   constructor(config: AudioRecorderConfig = {}) {
     this.config = {
@@ -35,6 +37,7 @@ export class AudioRecorder {
       
       this.mediaRecorder = new MediaRecorder(this.stream, { mimeType })
       this.audioChunks = []
+      this.isStopping = false
 
       this.mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
@@ -46,8 +49,8 @@ export class AudioRecorder {
 
       // Auto-stop after max duration
       if (this.config.maxDuration) {
-        setTimeout(() => {
-          if (this.mediaRecorder?.state === 'recording') {
+        this.autoStopTimeout = setTimeout(() => {
+          if (this.mediaRecorder?.state === 'recording' && !this.isStopping) {
             this.stop()
           }
         }, this.config.maxDuration * 1000)
@@ -59,22 +62,37 @@ export class AudioRecorder {
   }
 
   async stop(): Promise<Blob> {
+    // Prevent multiple simultaneous stop calls
+    if (this.isStopping) {
+      return Promise.reject(new Error('Stop already in progress'))
+    }
+
+    // Clear auto-stop timeout if it exists
+    if (this.autoStopTimeout) {
+      clearTimeout(this.autoStopTimeout)
+      this.autoStopTimeout = null
+    }
+
     return new Promise((resolve, reject) => {
       if (!this.mediaRecorder) {
         reject(new Error('MediaRecorder not initialized'))
         return
       }
 
+      this.isStopping = true
+
       this.mediaRecorder.onstop = () => {
         const mimeType = this.mediaRecorder?.mimeType || 'audio/webm'
         const audioBlob = new Blob(this.audioChunks, { type: mimeType })
         this.cleanup()
+        this.isStopping = false
         resolve(audioBlob)
       }
 
       this.mediaRecorder.onerror = (event) => {
         console.error('MediaRecorder error:', event)
         this.cleanup()
+        this.isStopping = false
         reject(new Error('Recording failed'))
       }
 
@@ -85,12 +103,19 @@ export class AudioRecorder {
         const mimeType = this.mediaRecorder.mimeType || 'audio/webm'
         const audioBlob = new Blob(this.audioChunks, { type: mimeType })
         this.cleanup()
+        this.isStopping = false
         resolve(audioBlob)
       }
     })
   }
 
   cancel(): void {
+    // Clear auto-stop timeout if it exists
+    if (this.autoStopTimeout) {
+      clearTimeout(this.autoStopTimeout)
+      this.autoStopTimeout = null
+    }
+
     if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
       this.mediaRecorder.stop()
     }
@@ -104,6 +129,7 @@ export class AudioRecorder {
     }
     this.mediaRecorder = null
     this.audioChunks = []
+    this.isStopping = false
   }
 
   private getSupportedMimeType(): string {

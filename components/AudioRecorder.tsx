@@ -27,6 +27,15 @@ export function AudioRecorderComponent({
   const handleStop = useCallback(async () => {
     if (!recorder) return
     
+    // Check if recorder is still active before stopping
+    if (!recorder.isRecording()) {
+      // Already stopped, just clean up UI state
+      setIsRecording(false)
+      setRecorder(null)
+      setDuration(0)
+      return
+    }
+    
     try {
       const audioBlob = await recorder.stop()
       setIsRecording(false)
@@ -34,6 +43,13 @@ export function AudioRecorderComponent({
       setDuration(0)
       onRecordingComplete(audioBlob)
     } catch (err) {
+      // If stop fails (e.g., already stopped), just clean up UI
+      if (err instanceof Error && err.message.includes('not initialized')) {
+        setIsRecording(false)
+        setRecorder(null)
+        setDuration(0)
+        return
+      }
       setError(err instanceof Error ? err.message : 'Failed to stop recording')
       console.error('Stop recording error:', err)
     }
@@ -42,10 +58,11 @@ export function AudioRecorderComponent({
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null
     
-    if (isRecording) {
+    if (isRecording && recorder) {
       interval = setInterval(() => {
         setDuration(prev => {
-          if (prev >= maxDuration) {
+          // Check if recorder is still recording before stopping
+          if (prev >= maxDuration && recorder?.isRecording()) {
             handleStop()
             return maxDuration
           }
@@ -59,7 +76,7 @@ export function AudioRecorderComponent({
     return () => {
       if (interval) clearInterval(interval)
     }
-  }, [isRecording, maxDuration, handleStop])
+  }, [isRecording, maxDuration, handleStop, recorder])
 
   const handleStart = useCallback(async () => {
     try {

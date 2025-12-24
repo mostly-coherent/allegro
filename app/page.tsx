@@ -68,6 +68,10 @@ export default function Home() {
         }),
       })
 
+      if (!response.ok) {
+        throw new Error(`Coaching API failed with status ${response.status}`)
+      }
+
       const data = await response.json()
       
       if (data.success && data.coaching) {
@@ -134,6 +138,10 @@ export default function Home() {
         body: JSON.stringify({ title, artist, limit: 5 }),
       })
 
+      if (!response.ok) {
+        throw new Error(`Recommendations API failed with status ${response.status}`)
+      }
+
       const data = await response.json()
       
       if (data.success) {
@@ -167,10 +175,15 @@ export default function Home() {
         body: formData,
       })
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || `Recognition API failed with status ${response.status}`)
+      }
+
       const data = await response.json()
 
-      if (!response.ok || data.error) {
-        throw new Error(data.error || 'Failed to recognize song')
+      if (data.error) {
+        throw new Error(data.error)
       }
 
       setSong(data.song)
