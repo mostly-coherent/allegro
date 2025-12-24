@@ -157,8 +157,14 @@ export default function Home() {
     }
   }
 
+  const [audioUrl, setAudioUrl] = useState<string | null>(null)
+
   const handleRecordingComplete = async (audioBlob: Blob) => {
     try {
+      // Create object URL for playback
+      const url = URL.createObjectURL(audioBlob)
+      setAudioUrl(url)
+      
       setLoadingState('recognizing')
       setError(null)
       setSong(null)
@@ -197,6 +203,11 @@ export default function Home() {
   }
 
   const handleRetry = () => {
+    // Clean up old audio URL
+    if (audioUrl) {
+      URL.revokeObjectURL(audioUrl)
+      setAudioUrl(null)
+    }
     setLoadingState('idle')
     setError(null)
     setSong(null)
@@ -275,6 +286,17 @@ export default function Home() {
           maxDuration={20}
           disabled={loadingState !== 'idle'}
         />
+      )}
+
+      {/* Audio Playback for Debugging */}
+      {audioUrl && (
+        <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center space-y-4">
+          <h3 className="text-lg font-semibold text-slate-900">Recording Preview</h3>
+          <audio controls src={audioUrl} className="w-full" />
+          <p className="text-sm text-slate-500">
+            Check the recording clarity to ensure best recognition results
+          </p>
+        </div>
       )}
 
       {/* Loading State */}
