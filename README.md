@@ -95,6 +95,13 @@ Multi-API orchestration: AudD for recognition, MusicBrainz for metadata, Spotify
 </details>
 
 <details>
+<summary><strong>🎯 Current Challenge: Single-Instrument Recognition</strong></summary>
+
+Most song recognition APIs (including AudD) are optimized for full studio recordings—multi-instrument arrangements with vocals. Allegro needs to identify songs from **single-instrument playing** (just piano or just guitar), which is significantly harder. I'm actively exploring approaches to improve accuracy for monophonic/polyphonic single-instrument audio. **Open to ideas and advice**—if you've tackled similar challenges or know of APIs/models better suited for this use case, I'd love to hear about it!
+
+</details>
+
+<details>
 <summary><strong>🔮 What's Next</strong></summary>
 
 Building **real-time "play along" suggestions**—analyzing what my kids are playing and recommending chords/riffs so I can jam with them on guitar. Same audio challenge, but now matching imperfect playing to playable chord progressions in real-time.
