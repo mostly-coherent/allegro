@@ -351,10 +351,21 @@ A personal coaching companion app that listens to kids practicing piano and guit
 - ✅ Browser notifications for song detection
 - ✅ Session summary with stats and timeline
 
-### Phase 8: Practice Tracking & Progress (Future)
+### Phase 8: Practice Tracking & Progress (BLOCKED - Recognition Issue)
 **Goal:** Track what kids practice over time
 
-**Tasks:**
+**⚠️ BLOCKER:** Current AudD API recognition struggles significantly with:
+- **Piano-only performances** (monophonic instrument, lacks harmonic context)
+- **Acoustic guitar-only performances** (fingerpicking patterns not matching studio recordings)
+
+**Action Required Before Phase 8:**
+- Research alternative recognition APIs/services better suited for solo instrument detection
+- Consider instrument-specific recognition models
+- Evaluate whether fragment matching (Phase 6C) can be enhanced for instrument-only scenarios
+- Test with real piano/guitar practice sessions to validate any new solution
+- **Do not invest in Phase 8 until recognition accuracy improves for solo instruments**
+
+**Tasks (Deferred):**
 - [ ] Supabase user authentication
 - [ ] Practice session history
 - [ ] "Pieces mastered" timeline
@@ -367,6 +378,7 @@ A personal coaching companion app that listens to kids practicing piano and guit
 - Multi-child support with separate histories
 - Weekly summaries (email optional)
 - Data export
+- **Recognition works reliably for piano-only and guitar-only performances**
 
 ## Technical Architecture
 
@@ -524,7 +536,21 @@ User → Microphone Permission → Audio Capture (5-10s)
 
 ---
 
-**Last Updated:** 2025-12-02
-**Status:** Planning Phase
-**Next Review:** After Phase 1 completion
+## 🎯 NEXT FOCUS
+
+**Priority:** Fix recognition accuracy for piano-only and acoustic guitar-only performances before investing in Phase 8.
+
+**Current Status:** Phases 1-7 complete and production-ready. Recognition works well for full-band recordings but struggles with solo instrument performances.
+
+**Next Steps:**
+1. Research alternative music recognition APIs/services optimized for solo instruments
+2. Test fragment matching (Phase 6C) enhancements for instrument-only scenarios
+3. Validate any new solution with real practice sessions
+4. Only proceed to Phase 8 after recognition accuracy improves
+
+---
+
+**Last Updated:** 2025-12-24
+**Status:** Production (Phases 1-7) | Blocked on Recognition (Phase 8)
+**Next Review:** After recognition solution evaluation
 
