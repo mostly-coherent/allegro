@@ -180,9 +180,90 @@
 
 ---
 
+## Progress - 2025-12-13 (Historical Summary - Phases 1-5)
+
+<!-- Merged from BUILD_SUMMARY.md on 2025-01-30 -->
+
+**Status:** ✅ Phases 1-5 Complete (Production Deployed)  
+**Version:** 1.0.0  
+**Live:** github.com/mostly-coherent/allegro → Vercel (auto-deploys from main)
+
+### Core Application Structure
+✅ Next.js 14+ App Router setup with TypeScript  
+✅ Tailwind CSS styling with custom theme  
+✅ Mobile-first responsive design  
+✅ Complete project configuration (tsconfig, eslint, postcss)
+
+### Key Features Implemented
+
+#### 1. Audio Recording System
+- Component: `AudioRecorderComponent` (`components/AudioRecorder.tsx`)
+- Utilities: `AudioRecorder` class (`lib/utils/audio.ts`)
+- Features: Browser microphone access, 10-second recording, visual progress bar, auto-stop, multiple audio formats, error handling
+
+#### 2. Song Recognition API
+- Endpoint: `/api/recognize` (`app/api/recognize/route.ts`)
+- Integration: AudD API client (`lib/apis/audd.ts`)
+- Features: Audio blob upload, song identification from live instruments, error handling, response formatting
+
+#### 3. User Interface Components
+- Main Page: `app/page.tsx` - Complete workflow orchestration
+- Song Display: `components/SongResult.tsx` - Song information card
+- Loading States: `components/LoadingState.tsx` - Multi-stage progress indicator
+- Error Handling: `components/ErrorDisplay.tsx` - User-friendly error messages
+- Layout: `app/layout.tsx` - Header, footer, responsive container
+
+#### 4. Type Safety
+- Types: `lib/types/index.ts` - Complete TypeScript definitions
+- Interfaces for: Song, Recognition, Metadata, Coaching, Audio State, User Settings
+
+### Phases Completed
+
+**Phase 2: Metadata Enrichment ✅**
+- MusicBrainz integration (`lib/apis/musicbrainz.ts`)
+- Wikipedia integration (`lib/apis/wikipedia.ts`)
+- Fun facts extraction and display
+- 1-hour cache for metadata
+
+**Phase 3: Recommendations ✅**
+- Spotify Client Credentials flow (no OAuth)
+- Similar songs with album art
+- Audio preview playback (30-sec)
+- 24-hour cache for recommendations
+
+**Phase 4: AI Coaching Content ✅**
+- OpenAI gpt-4o-mini integration (`lib/apis/coaching.ts`)
+- 4 categories: Wise Cracks, Coaching Moments, Encouragement, What's Next
+- Age/skill level personalization
+- Copy-to-clipboard functionality
+- 7-day cache; fallback content when API unavailable
+
+**Phase 5: Polish & Production ✅**
+- Deployed to Vercel (github.com/mostly-coherent/allegro)
+- E2E tests with Playwright
+- APP_PASSWORD protection
+- Responsive design (mobile, tablet, desktop)
+- Error handling and loading states
+
+### Technical Achievements
+- TypeScript strict mode enabled
+- No linter errors
+- Functional components with hooks
+- Proper error boundaries
+- Clean separation of concerns
+- Optimized audio recording (auto-cleanup)
+- Efficient state management
+- Mobile-optimized bundle
+
+### Evidence
+- Deployed: github.com/mostly-coherent/allegro → Vercel
+- E2E tests passing (5 specs, screenshots in `e2e-results/`)
+- API routes: `/api/recognize`, `/api/metadata`, `/api/recommendations`, `/api/coaching`
+
+---
+
 ## Notes
 
 - Phases 1-5 were built rapidly; this log created retroactively
-- BUILD_SUMMARY.md contains detailed feature list from initial build
 - Going forward, update this log as work progresses on Phase 6+
 
