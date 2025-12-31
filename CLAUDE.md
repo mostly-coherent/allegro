@@ -92,14 +92,81 @@ Copy `.env.example` to `.env.local` and configure:
 
 ### Required
 - `AUDD_API_KEY` - AudD music recognition API (handles live instruments)
+  - Sign up at: https://audd.io/
+  - Get your API key from the dashboard
+  - You get 300 free recognitions to start
 - `MUSICBRAINZ_USER_AGENT` - Format: "Allegro/1.0 (https://github.com/mostly-coherent/Allegro)"
 - `SPOTIFY_CLIENT_ID` - Spotify app credentials (for recommendations)
+  - Create an app at: https://developer.spotify.com/dashboard
+  - Get Client ID and Secret
 - `SPOTIFY_CLIENT_SECRET` - Spotify app credentials
 - `OPENAI_API_KEY` - OpenAI API (essential for generating coaching content)
+  - Get API key at: https://platform.openai.com/api-keys
 
 ### Optional
 - `MUSICBRAINZ_EMAIL` - For higher rate limits
 - `ANTHROPIC_API_KEY` - Alternative to OpenAI for Claude API
+
+## Setup Instructions
+
+<!-- Merged from SETUP_GUIDE.md on 2025-01-30 -->
+
+### Initial Setup
+
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Configure Environment Variables**
+   ```bash
+   cp env.example .env.local
+   ```
+   Edit `.env.local` with your API keys (see Environment Variables section above)
+
+3. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
+   Open http://localhost:3000 in your browser
+
+### Testing the App
+
+1. **Click "Start Listening"** - Grant microphone permission when prompted
+2. **Play some music** - Either:
+   - Play a song on piano/guitar (best results with well-known songs)
+   - Play music from your phone/speaker near the microphone
+3. **Wait for recognition** - The app will identify the song in a few seconds
+4. **View results** - See song information and details
+
+### Deployment to Vercel
+
+1. **Build locally and verify**
+   ```bash
+   npm run build
+   ```
+
+2. **Connect GitHub repo to Vercel**
+   - Go to your Vercel dashboard
+   - Click "Add New Project"
+   - Import from GitHub (github.com/mostly-coherent/Allegro)
+
+3. **Configure Environment Variables**
+   In Vercel dashboard, add:
+   - `AUDD_API_KEY` - Your AudD API key
+   - `MUSICBRAINZ_USER_AGENT` - `Allegro/1.0 (your-app-url)`
+   - (Optional) `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `OPENAI_API_KEY`
+
+4. **Deploy**
+   - Click "Deploy"
+   - Wait 2-3 minutes
+   - Get your production URL: `https://allegro-*.vercel.app`
+
+5. **Test Production**
+   - Visit your Vercel URL
+   - Test microphone permissions (HTTPS required)
+   - Test song recognition
+   - Test on mobile device
 
 ## Development Guidelines
 
