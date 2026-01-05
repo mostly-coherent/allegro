@@ -40,7 +40,7 @@ Next.js 14+ app with TypeScript for parents to engage with kids' music practice.
 4. **OpenAI/Claude API** - Generate personalized wise cracks & coaching moments (paid, essential)
 5. **Wikipedia API** - Biographical information (free, optional)
 
-See `Plan.md` for detailed product requirements and architecture decisions.
+See `PLAN.md` for detailed product requirements and architecture decisions.
 
 ## Key Commands
 

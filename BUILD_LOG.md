@@ -141,10 +141,10 @@
 ## Progress - 2025-12-22 (Phase 6A)
 
 **Done:**
-- ✅ Updated Plan.md to reflect actual state (Phases 1-5 complete)
+- ✅ Updated PLAN.md to reflect actual state (Phases 1-5 complete)
 - ✅ Updated BUILD_SUMMARY.md to v1.0.0 status
 - ✅ Created BUILD_LOG.md (this file) for ongoing progress tracking
-- ✅ Created PIVOTS.md for decision/pivot logging
+- ✅ Created PIVOT_LOG.md for decision/pivot logging
 - ✅ Broke Phase 6 into sensible sub-phases (6A, 6B, 6C)
 - ✅ **Phase 6A Implementation:**
   - Researched browser audio libraries (Meyda.js, Pitchy, Aubio.js)
