@@ -26,5 +26,11 @@ out/
 CLAUDE.local.md
 .claude/
 
+# Testing (screenshots may contain personal paths or local content)
+test-results/
+e2e-results/
+playwright-report/
+playwright/.cache/
+
 # AI Documentation (Mode A - canonical docs are now published to GitHub)
 # Canonical docs (README.md, CLAUDE.md, Plan.md, BUILD_LOG.md, PIVOTS.md, ARCHITECTURE.md) are tracked
