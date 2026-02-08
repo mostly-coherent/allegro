@@ -32,6 +32,19 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
+  // Rolling cookie refresh — extend 2-day expiry on every request
+  if (isAuthenticated) {
+    const response = NextResponse.next();
+    response.cookies.set('allegro-auth', 'authenticated', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 2, // 2 days
+      path: '/',
+    });
+    return response;
+  }
+
   return NextResponse.next();
 }
 
